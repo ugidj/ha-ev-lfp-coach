@@ -228,7 +228,16 @@ charging status sensor takes and add the ones meaning "stopped charging" in the 
 
 The behaviour is covered by an automated test suite that simulates the vehicle (restarts,
 unavailable sensors, failing commands, ...). **Real-world reports are very welcome** — please use
-the *Vehicle compatibility report* issue template; verified cars will be listed here.
+the [*Vehicle compatibility report*](https://github.com/ugidj/ha-ev-lfp-coach/issues/new?template=vehicle_report.yml)
+issue template; verified cars are listed here.
+
+| Vehicle | Integration | Status |
+| --- | --- | --- |
+| Tesla Model 3 RWD (LFP) | Tesla (Fleet) | ⏳ first real cycle in progress |
+| BYD, MG4, Volvo EX30, ... | — | ❔ not reported yet — [tell us](https://github.com/ugidj/ha-ev-lfp-coach/issues/new?template=vehicle_report.yml) |
+
+Found a bug? [Open an issue](https://github.com/ugidj/ha-ev-lfp-coach/issues/new?template=bug_report.yml)
+and attach the diagnostics file.
 
 Note that how an LFP BMS balances and what a car reports at 100% varies by manufacturer. Check your
 manufacturer's recommendation for calibration frequency; this integration only automates the

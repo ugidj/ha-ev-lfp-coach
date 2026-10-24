@@ -1,0 +1,43 @@
+{
+  "entity": {
+    "sensor": {
+      "days_since_calibration": { "default": "mdi:calendar-range" },
+      "calibration_state": {
+        "default": "mdi:battery-heart-variant",
+        "state": {
+          "calibrated": "mdi:battery-check",
+          "calibration_due": "mdi:battery-alert-variant-outline",
+          "calibrating_100": "mdi:battery-charging-high",
+          "top_balancing": "mdi:scale-balance"
+        }
+      },
+      "last_calibration": { "default": "mdi:clock-check-outline" },
+      "next_calibration": { "default": "mdi:calendar-clock" }
+    },
+    "binary_sensor": {
+      "calibration_due": { "default": "mdi:battery-clock-outline" },
+      "calibration_active": { "default": "mdi:battery-sync-outline" }
+    },
+    "button": {
+      "force_calibration": { "default": "mdi:battery-charging-100" },
+      "cancel_calibration": { "default": "mdi:cancel" },
+      "reset_calibration_timer": { "default": "mdi:restart" }
+    },
+    "number": {
+      "daily_limit": { "default": "mdi:battery-70" },
+      "calibration_limit": { "default": "mdi:battery-charging-100" },
+      "calibration_interval_days": { "default": "mdi:calendar-sync" }
+    },
+    "switch": {
+      "auto_mode": {
+        "default": "mdi:robot",
+        "state": { "off": "mdi:robot-off" }
+      }
+    }
+  },
+  "services": {
+    "start_calibration": { "service": "mdi:battery-charging-100" },
+    "cancel_calibration": { "service": "mdi:cancel" },
+    "mark_calibrated": { "service": "mdi:battery-check" }
+  }
+}

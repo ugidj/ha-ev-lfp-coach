@@ -1,0 +1,32 @@
+name: Vehicle compatibility report
+description: Tell us how the coach behaves with your car (works / needs tweaks)
+labels: [compatibility]
+body:
+  - type: input
+    id: vehicle
+    attributes:
+      label: Vehicle (make, model, battery)
+      placeholder: "BYD Dolphin Standard, LFP"
+    validations:
+      required: true
+  - type: input
+    id: integration
+    attributes:
+      label: Integration providing the entities
+      placeholder: "Teslemetry / Tesla Fleet / Hyundai-Kia Connect / MG SAIC / ..."
+    validations:
+      required: true
+  - type: textarea
+    id: statuses
+    attributes:
+      label: Values of the charging status sensor
+      description: List every state you have seen (charging, complete, ...) and which ones mean "finished".
+    validations:
+      required: true
+  - type: textarea
+    id: behaviour
+    attributes:
+      label: Did a full cycle work?
+      description: |
+        Did the limit go up, did the car stay connected through balancing, did the daily limit come back?
+        What did the status sensor report at 100%?

@@ -1,0 +1,12 @@
+{
+  "domain": "ev_lfp_coach",
+  "name": "EV LFP Battery Coach",
+  "codeowners": ["@ugidj"],
+  "config_flow": true,
+  "documentation": "https://github.com/ugidj/ha-ev-lfp-coach",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/ugidj/ha-ev-lfp-coach/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

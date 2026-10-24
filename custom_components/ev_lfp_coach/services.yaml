@@ -1,0 +1,26 @@
+start_calibration:
+  target:
+    entity:
+      integration: ev_lfp_coach
+      domain: sensor
+      device_class: enum
+
+cancel_calibration:
+  target:
+    entity:
+      integration: ev_lfp_coach
+      domain: sensor
+      device_class: enum
+
+mark_calibrated:
+  target:
+    entity:
+      integration: ev_lfp_coach
+      domain: sensor
+      device_class: enum
+  fields:
+    timestamp:
+      required: false
+      example: "2026-10-01 08:30:00"
+      selector:
+        datetime:

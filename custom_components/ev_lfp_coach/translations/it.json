@@ -1,0 +1,246 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Veicolo",
+        "description": "Scegli le entità della tua auto elettrica (o wallbox smart). All'auto servono livello batteria, un limite di carica modificabile e uno stato di ricarica; il resto è opzionale.",
+        "data": {
+          "name": "Nome veicolo",
+          "battery_level_entity": "Livello batteria",
+          "charge_limit_entity": "Limite di carica",
+          "charging_status_entity": "Stato di ricarica"
+        },
+        "data_description": {
+          "battery_level_entity": "Sensore con lo stato di carica in %.",
+          "charge_limit_entity": "Entità number che il coach imposterà (limite quotidiano / limite di calibrazione).",
+          "charging_status_entity": "Sensore con lo stato di ricarica, es. charging, complete, stopped, disconnected."
+        },
+        "sections": {
+          "optional": {
+            "name": "Impostazioni opzionali",
+            "description": "Tutto qui può restare vuoto. Aprilo solo se vuoi che il coach sappia di più sulla tua auto.",
+            "data": {
+              "cable_entity": "Cavo di ricarica collegato",
+              "charging_power_entity": "Potenza di ricarica",
+              "home_only": "Calibra solo quando l'auto è a casa",
+              "location_entity": "Posizione (serve per 'solo a casa')",
+              "home_zone": "Zona di casa (se non è Casa)"
+            },
+            "data_description": {
+              "cable_entity": "Sensore binario acceso quando il cavo è collegato. Se manca, lo stato del cavo è dedotto dallo stato di ricarica.",
+              "charging_power_entity": "Sensore con la potenza assorbita dall'auto (es. una wallbox connessa). Se impostato, il bilanciamento termina quando questa potenza resta vicina a zero invece che quando lo stato dice 'complete'. Lascia vuoto se la tua wallbox non è connessa a Home Assistant.",
+              "home_only": "Spento (predefinito): la calibrazione avviene anche se ricarichi fuori casa. Acceso: solo a casa — scegli la posizione qui sotto.",
+              "location_entity": "Device tracker o persona usati per 'solo a casa'.",
+              "home_zone": "Solo se ricarichi a casa in una zona diversa da Casa."
+            }
+          }
+        }
+      },
+      "parameters": {
+        "title": "Ricarica e calibrazione",
+        "description": "Imposta il limite quotidiano e come funziona la carica completa periodica. Potrai cambiare tutto in seguito dal pulsante Configura dell'integrazione.",
+        "data": {
+          "daily_limit": "Limite di carica quotidiano",
+          "calibration_limit": "Limite di carica per la calibrazione",
+          "calibration_interval_days": "Intervallo tra calibrazioni",
+          "min_hold_minutes": "Tempo minimo al massimo",
+          "top_balancing_timeout_minutes": "Timeout del bilanciamento",
+          "top_balancing_buffer_seconds": "Ritardo prima di ripristinare il limite",
+          "finished_statuses": "Stati di ricarica che significano \"finita\"",
+          "abort_after_hours": "Rinuncia dopo scollegata / lontana per",
+          "restore_after_manual": "Ripristina il limite anche dopo una carica completa avviata da me",
+          "send_notifications": "Invia notifiche",
+          "notify_service": "Servizio o entità di notifica",
+          "idle_power_watts": "Potenza considerata 'non in carica'",
+          "idle_minutes": "Tempo a riposo prima della fine del bilanciamento"
+        },
+        "data_description": {
+          "calibration_interval_days": "La calibrazione diventa dovuta a mezzanotte dell'N-esimo giorno dopo la precedente.",
+          "min_hold_minutes": "Alcune auto segnalano \"complete\" appena toccano il 100%. Il limite non viene abbassato prima di questo tempo (a meno che il cavo venga scollegato).",
+          "top_balancing_timeout_minutes": "Rete di sicurezza: trascorso questo tempo il limite quotidiano viene ripristinato qualunque cosa riporti l'auto.",
+          "top_balancing_buffer_seconds": "Attesa extra dopo che la fine del bilanciamento è stata rilevata.",
+          "finished_statuses": "Valori del sensore di stato ricarica che indicano che l'auto ha smesso di caricare. Ignorati se è impostato un sensore di potenza.",
+          "abort_after_hours": "Se l'auto è scollegata o lontana durante la calibrazione, ripristina il limite quotidiano dopo queste ore. 0 = mai.",
+          "notify_service": "Lascia vuoto per usare le notifiche persistenti.",
+          "idle_power_watts": "A questa potenza (W) o meno l'auto non assorbe più corrente. Usato solo se è impostato un sensore di potenza.",
+          "idle_minutes": "La potenza deve restare a quel livello o meno per questi minuti. Usato solo se è impostato un sensore di potenza."
+        }
+      },
+      "reconfigure": {
+        "title": "Cambia le entità del veicolo",
+        "description": "Usalo quando le entità dell'auto sono cambiate (ad esempio dopo il passaggio a un'altra integrazione). Lo storico delle calibrazioni viene mantenuto.",
+        "data": {
+          "name": "Nome veicolo",
+          "battery_level_entity": "Livello batteria",
+          "charge_limit_entity": "Limite di carica",
+          "charging_status_entity": "Stato di ricarica"
+        },
+        "sections": {
+          "optional": {
+            "name": "Impostazioni opzionali",
+            "description": "Tutto qui può restare vuoto. Aprilo solo se vuoi che il coach sappia di più sulla tua auto.",
+            "data": {
+              "cable_entity": "Cavo di ricarica collegato",
+              "charging_power_entity": "Potenza di ricarica",
+              "home_only": "Calibra solo quando l'auto è a casa",
+              "location_entity": "Posizione (serve per 'solo a casa')",
+              "home_zone": "Zona di casa (se non è Casa)"
+            },
+            "data_description": {
+              "cable_entity": "Sensore binario acceso quando il cavo è collegato. Se manca, lo stato del cavo è dedotto dallo stato di ricarica.",
+              "charging_power_entity": "Sensore con la potenza assorbita dall'auto (es. una wallbox connessa). Se impostato, il bilanciamento termina quando questa potenza resta vicina a zero invece che quando lo stato dice 'complete'. Lascia vuoto se la tua wallbox non è connessa a Home Assistant.",
+              "home_only": "Spento (predefinito): la calibrazione avviene anche se ricarichi fuori casa. Acceso: solo a casa — scegli la posizione qui sotto.",
+              "location_entity": "Device tracker o persona usati per 'solo a casa'.",
+              "home_zone": "Solo se ricarichi a casa in una zona diversa da Casa."
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "daily_limit_greater_than_calibration": "Il limite quotidiano deve essere inferiore al limite di calibrazione.",
+      "min_hold_exceeds_timeout": "Il tempo minimo al massimo non può superare il timeout del bilanciamento.",
+      "no_finished_statuses": "Aggiungi almeno uno stato di ricarica.",
+      "invalid_notify_target": "Questo servizio o entità di notifica non esiste.",
+      "duplicate_entities": "Ogni campo richiede un'entità diversa.",
+      "already_configured": "Un altro coach gestisce già questo limite di carica.",
+      "location_required": "Attiva 'solo a casa' solo insieme a un'entità di posizione (oppure lascialo spento)."
+    },
+    "abort": {
+      "already_configured": "Esiste già un coach per questa entità di limite di carica.",
+      "reconfigure_successful": "Le entità del veicolo sono state aggiornate."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Ricarica e calibrazione",
+        "description": "Le modifiche si applicano appena salvi.",
+        "data": {
+          "daily_limit": "Limite di carica quotidiano",
+          "calibration_limit": "Limite di carica per la calibrazione",
+          "calibration_interval_days": "Intervallo tra calibrazioni",
+          "min_hold_minutes": "Tempo minimo al massimo",
+          "top_balancing_timeout_minutes": "Timeout del bilanciamento",
+          "top_balancing_buffer_seconds": "Ritardo prima di ripristinare il limite",
+          "finished_statuses": "Stati di ricarica che significano \"finita\"",
+          "abort_after_hours": "Rinuncia dopo scollegata / lontana per",
+          "restore_after_manual": "Ripristina il limite anche dopo una carica completa avviata da me",
+          "send_notifications": "Invia notifiche",
+          "notify_service": "Servizio o entità di notifica",
+          "idle_power_watts": "Potenza considerata 'non in carica'",
+          "idle_minutes": "Tempo a riposo prima della fine del bilanciamento"
+        },
+        "data_description": {
+          "calibration_interval_days": "La calibrazione diventa dovuta a mezzanotte dell'N-esimo giorno dopo la precedente.",
+          "min_hold_minutes": "Alcune auto segnalano \"complete\" appena toccano il 100%. Il limite non viene abbassato prima di questo tempo (a meno che il cavo venga scollegato).",
+          "top_balancing_timeout_minutes": "Rete di sicurezza: trascorso questo tempo il limite quotidiano viene ripristinato qualunque cosa riporti l'auto.",
+          "top_balancing_buffer_seconds": "Attesa extra dopo che la fine del bilanciamento è stata rilevata.",
+          "finished_statuses": "Valori del sensore di stato ricarica che indicano che l'auto ha smesso di caricare. Ignorati se è impostato un sensore di potenza.",
+          "abort_after_hours": "Se l'auto è scollegata o lontana durante la calibrazione, ripristina il limite quotidiano dopo queste ore. 0 = mai.",
+          "notify_service": "Lascia vuoto per usare le notifiche persistenti.",
+          "idle_power_watts": "A questa potenza (W) o meno l'auto non assorbe più corrente. Usato solo se è impostato un sensore di potenza.",
+          "idle_minutes": "La potenza deve restare a quel livello o meno per questi minuti. Usato solo se è impostato un sensore di potenza."
+        }
+      }
+    },
+    "error": {
+      "daily_limit_greater_than_calibration": "Il limite quotidiano deve essere inferiore al limite di calibrazione.",
+      "min_hold_exceeds_timeout": "Il tempo minimo al massimo non può superare il timeout del bilanciamento.",
+      "no_finished_statuses": "Aggiungi almeno uno stato di ricarica.",
+      "invalid_notify_target": "Questo servizio o entità di notifica non esiste."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "days_since_calibration": {
+        "name": "Giorni dall'ultima calibrazione"
+      },
+      "calibration_state": {
+        "name": "Stato calibrazione",
+        "state": {
+          "calibrated": "Calibrata",
+          "calibration_due": "Calibrazione necessaria",
+          "calibrating_100": "Carica al massimo in corso",
+          "top_balancing": "Bilanciamento celle"
+        }
+      },
+      "last_calibration": {
+        "name": "Ultima calibrazione"
+      },
+      "next_calibration": {
+        "name": "Prossima calibrazione"
+      }
+    },
+    "binary_sensor": {
+      "calibration_due": {
+        "name": "Calibrazione necessaria"
+      },
+      "calibration_active": {
+        "name": "Calibrazione in corso"
+      }
+    },
+    "button": {
+      "force_calibration": {
+        "name": "Calibra alla prossima ricarica"
+      },
+      "cancel_calibration": {
+        "name": "Annulla calibrazione"
+      },
+      "reset_calibration_timer": {
+        "name": "Segna come calibrata ora"
+      }
+    },
+    "number": {
+      "daily_limit": {
+        "name": "Limite di carica quotidiano"
+      },
+      "calibration_limit": {
+        "name": "Limite di carica per calibrazione"
+      },
+      "calibration_interval_days": {
+        "name": "Intervallo di calibrazione"
+      }
+    },
+    "switch": {
+      "auto_mode": {
+        "name": "Gestione automatica"
+      }
+    }
+  },
+  "issues": {
+    "set_limit_failed": {
+      "title": "Impossibile cambiare il limite di carica di {vehicle}",
+      "description": "L'impostazione di {entity} è fallita più volte di fila, quindi la calibrazione non può proseguire. Controlla che il veicolo sia raggiungibile (sveglio, online, quota API disponibile). Il coach continua a riprovare e questo problema sparisce da solo quando un comando riesce."
+    },
+    "entity_missing": {
+      "title": "Entità di {vehicle} non trovata",
+      "description": "L'entità {entity} configurata per {vehicle} non esiste più, quindi il coach non agisce su di essa. Usa Riconfigura sull'integrazione per selezionare l'entità giusta."
+    }
+  },
+  "services": {
+    "start_calibration": {
+      "name": "Avvia calibrazione",
+      "description": "Calibra alla prossima ricarica, indipendentemente da quanto tempo è passato dall'ultima carica completa."
+    },
+    "cancel_calibration": {
+      "name": "Annulla calibrazione",
+      "description": "Interrompe una calibrazione in corso, ripristina il limite quotidiano e non richiede una carica completa per 24 ore."
+    },
+    "mark_calibrated": {
+      "name": "Segna come calibrata",
+      "description": "Registra una carica completa, ad esempio fatta senza il coach. Termina una calibrazione in corso.",
+      "fields": {
+        "timestamp": {
+          "name": "Data e ora",
+          "description": "Quando è avvenuta la carica completa. Predefinito: adesso."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "daily_limit_greater_than_calibration": {
+      "message": "Il limite quotidiano deve essere inferiore al limite di calibrazione."
+    }
+  }
+}

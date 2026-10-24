@@ -1,0 +1,246 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Vehicle",
+        "description": "Pick the entities of your electric vehicle (or smart charger). The car needs a battery level, a charge limit you can set and a charging status; everything else is optional.",
+        "data": {
+          "name": "Vehicle name",
+          "battery_level_entity": "Battery level",
+          "charge_limit_entity": "Charge limit",
+          "charging_status_entity": "Charging status"
+        },
+        "data_description": {
+          "battery_level_entity": "Sensor with the state of charge in %.",
+          "charge_limit_entity": "Number entity the coach will set (daily limit / calibration limit).",
+          "charging_status_entity": "Sensor with the charging state, e.g. charging, complete, stopped, disconnected."
+        },
+        "sections": {
+          "optional": {
+            "name": "Optional settings",
+            "description": "Everything here can be left empty. Open it only if you want the coach to know more about your car.",
+            "data": {
+              "cable_entity": "Charge cable connected",
+              "charging_power_entity": "Charging power",
+              "home_only": "Calibrate only when the car is at home",
+              "location_entity": "Location (needed for 'only at home')",
+              "home_zone": "Home zone (if not Home)"
+            },
+            "data_description": {
+              "cable_entity": "Binary sensor that is on while the cable is plugged in. Without it the cable state is derived from the charging status.",
+              "charging_power_entity": "Sensor with the power the car draws (e.g. a connected wall box). When set, top balancing ends when this power stays near zero instead of when the status says 'complete'. Leave empty if your wall box is not connected to Home Assistant.",
+              "home_only": "Off (default): the calibration also happens when you charge away from home. On: only at home — pick the location below.",
+              "location_entity": "Device tracker or person used for 'only at home'.",
+              "home_zone": "Only if you charge at home in a zone other than Home."
+            }
+          }
+        }
+      },
+      "parameters": {
+        "title": "Charging & calibration",
+        "description": "Tune the daily limit and how the periodic full charge works. You can change all of this later from the integration's Configure button.",
+        "data": {
+          "daily_limit": "Daily charge limit",
+          "calibration_limit": "Calibration charge limit",
+          "calibration_interval_days": "Calibration interval",
+          "min_hold_minutes": "Minimum time at the top",
+          "top_balancing_timeout_minutes": "Top balancing timeout",
+          "top_balancing_buffer_seconds": "Delay before restoring the limit",
+          "finished_statuses": "Charging statuses meaning \"finished\"",
+          "abort_after_hours": "Give up after unplugged / away for",
+          "restore_after_manual": "Also restore the limit after a full charge I started myself",
+          "send_notifications": "Send notifications",
+          "notify_service": "Notify service or entity",
+          "idle_power_watts": "Power considered 'not charging'",
+          "idle_minutes": "Idle time before balancing ends"
+        },
+        "data_description": {
+          "calibration_interval_days": "A calibration becomes due at midnight of the Nth day after the previous one.",
+          "min_hold_minutes": "Some cars report \"complete\" the moment they hit 100%. The limit is never lowered before this time has passed (unless the cable is unplugged).",
+          "top_balancing_timeout_minutes": "Safety net: after this time the daily limit is restored whatever the car reports.",
+          "top_balancing_buffer_seconds": "Extra wait after the end of balancing is detected.",
+          "finished_statuses": "Values of the charging status sensor that mean the car stopped charging. Ignored while a charging power sensor is set.",
+          "abort_after_hours": "If the car is unplugged or away while calibrating, restore the daily limit after this many hours. 0 = never.",
+          "notify_service": "Leave empty to use persistent notifications.",
+          "idle_power_watts": "At or below this power (W) the car counts as no longer drawing current. Used only if a charging power sensor is set.",
+          "idle_minutes": "The power must stay at or below that level this many minutes. Used only if a charging power sensor is set."
+        }
+      },
+      "reconfigure": {
+        "title": "Change vehicle entities",
+        "description": "Use this when the entities of the car changed (for example after switching to another integration). Calibration history is kept.",
+        "data": {
+          "name": "Vehicle name",
+          "battery_level_entity": "Battery level",
+          "charge_limit_entity": "Charge limit",
+          "charging_status_entity": "Charging status"
+        },
+        "sections": {
+          "optional": {
+            "name": "Optional settings",
+            "description": "Everything here can be left empty. Open it only if you want the coach to know more about your car.",
+            "data": {
+              "cable_entity": "Charge cable connected",
+              "charging_power_entity": "Charging power",
+              "home_only": "Calibrate only when the car is at home",
+              "location_entity": "Location (needed for 'only at home')",
+              "home_zone": "Home zone (if not Home)"
+            },
+            "data_description": {
+              "cable_entity": "Binary sensor that is on while the cable is plugged in. Without it the cable state is derived from the charging status.",
+              "charging_power_entity": "Sensor with the power the car draws (e.g. a connected wall box). When set, top balancing ends when this power stays near zero instead of when the status says 'complete'. Leave empty if your wall box is not connected to Home Assistant.",
+              "home_only": "Off (default): the calibration also happens when you charge away from home. On: only at home — pick the location below.",
+              "location_entity": "Device tracker or person used for 'only at home'.",
+              "home_zone": "Only if you charge at home in a zone other than Home."
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "daily_limit_greater_than_calibration": "The daily limit must be lower than the calibration limit.",
+      "min_hold_exceeds_timeout": "The minimum time at the top cannot exceed the top balancing timeout.",
+      "no_finished_statuses": "Add at least one charging status.",
+      "invalid_notify_target": "This notify service or entity does not exist.",
+      "duplicate_entities": "Each field needs a different entity.",
+      "already_configured": "Another coach already manages this charge limit.",
+      "location_required": "Turn on 'only at home' only together with a location entity (or leave it off)."
+    },
+    "abort": {
+      "already_configured": "A coach for this charge limit entity is already configured.",
+      "reconfigure_successful": "The vehicle entities were updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Charging & calibration",
+        "description": "Changes apply as soon as you save.",
+        "data": {
+          "daily_limit": "Daily charge limit",
+          "calibration_limit": "Calibration charge limit",
+          "calibration_interval_days": "Calibration interval",
+          "min_hold_minutes": "Minimum time at the top",
+          "top_balancing_timeout_minutes": "Top balancing timeout",
+          "top_balancing_buffer_seconds": "Delay before restoring the limit",
+          "finished_statuses": "Charging statuses meaning \"finished\"",
+          "abort_after_hours": "Give up after unplugged / away for",
+          "restore_after_manual": "Also restore the limit after a full charge I started myself",
+          "send_notifications": "Send notifications",
+          "notify_service": "Notify service or entity",
+          "idle_power_watts": "Power considered 'not charging'",
+          "idle_minutes": "Idle time before balancing ends"
+        },
+        "data_description": {
+          "calibration_interval_days": "A calibration becomes due at midnight of the Nth day after the previous one.",
+          "min_hold_minutes": "Some cars report \"complete\" the moment they hit 100%. The limit is never lowered before this time has passed (unless the cable is unplugged).",
+          "top_balancing_timeout_minutes": "Safety net: after this time the daily limit is restored whatever the car reports.",
+          "top_balancing_buffer_seconds": "Extra wait after the end of balancing is detected.",
+          "finished_statuses": "Values of the charging status sensor that mean the car stopped charging. Ignored while a charging power sensor is set.",
+          "abort_after_hours": "If the car is unplugged or away while calibrating, restore the daily limit after this many hours. 0 = never.",
+          "notify_service": "Leave empty to use persistent notifications.",
+          "idle_power_watts": "At or below this power (W) the car counts as no longer drawing current. Used only if a charging power sensor is set.",
+          "idle_minutes": "The power must stay at or below that level this many minutes. Used only if a charging power sensor is set."
+        }
+      }
+    },
+    "error": {
+      "daily_limit_greater_than_calibration": "The daily limit must be lower than the calibration limit.",
+      "min_hold_exceeds_timeout": "The minimum time at the top cannot exceed the top balancing timeout.",
+      "no_finished_statuses": "Add at least one charging status.",
+      "invalid_notify_target": "This notify service or entity does not exist."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "days_since_calibration": {
+        "name": "Days since calibration"
+      },
+      "calibration_state": {
+        "name": "Calibration state",
+        "state": {
+          "calibrated": "Calibrated",
+          "calibration_due": "Calibration due",
+          "calibrating_100": "Charging to full",
+          "top_balancing": "Top balancing"
+        }
+      },
+      "last_calibration": {
+        "name": "Last calibration"
+      },
+      "next_calibration": {
+        "name": "Next calibration"
+      }
+    },
+    "binary_sensor": {
+      "calibration_due": {
+        "name": "Calibration due"
+      },
+      "calibration_active": {
+        "name": "Calibration in progress"
+      }
+    },
+    "button": {
+      "force_calibration": {
+        "name": "Calibrate on next charge"
+      },
+      "cancel_calibration": {
+        "name": "Cancel calibration"
+      },
+      "reset_calibration_timer": {
+        "name": "Mark calibrated now"
+      }
+    },
+    "number": {
+      "daily_limit": {
+        "name": "Daily charge limit"
+      },
+      "calibration_limit": {
+        "name": "Calibration charge limit"
+      },
+      "calibration_interval_days": {
+        "name": "Calibration interval"
+      }
+    },
+    "switch": {
+      "auto_mode": {
+        "name": "Automatic management"
+      }
+    }
+  },
+  "issues": {
+    "set_limit_failed": {
+      "title": "Cannot change the charge limit of {vehicle}",
+      "description": "Setting {entity} failed several times in a row, so the calibration cannot proceed. Check that the vehicle is reachable (awake, online, API quota available). The coach keeps retrying and this issue clears itself once a command succeeds."
+    },
+    "entity_missing": {
+      "title": "Entity of {vehicle} not found",
+      "description": "The entity {entity} configured for {vehicle} does not exist any more, so the coach is not acting on it. Use Reconfigure on the integration to select the right entity."
+    }
+  },
+  "services": {
+    "start_calibration": {
+      "name": "Start calibration",
+      "description": "Calibrate at the next charge, regardless of how long ago the last full charge was."
+    },
+    "cancel_calibration": {
+      "name": "Cancel calibration",
+      "description": "Stop a running calibration, restore the daily limit and do not ask for a full charge again for 24 hours."
+    },
+    "mark_calibrated": {
+      "name": "Mark as calibrated",
+      "description": "Record a full charge, for example one done without the coach. Ends a running calibration.",
+      "fields": {
+        "timestamp": {
+          "name": "Date and time",
+          "description": "When the full charge happened. Defaults to now."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "daily_limit_greater_than_calibration": {
+      "message": "The daily limit must be lower than the calibration limit."
+    }
+  }
+}

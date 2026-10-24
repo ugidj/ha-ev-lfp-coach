@@ -1,0 +1,51 @@
+name: Bug report
+description: Something does not work as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! The two things that make a bug fixable are the **diagnostics file**
+        and the **debug log** around the problem.
+  - type: input
+    id: ha_version
+    attributes:
+      label: Home Assistant version
+      placeholder: "2026.10.3"
+    validations:
+      required: true
+  - type: input
+    id: integration_version
+    attributes:
+      label: EV LFP Battery Coach version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: vehicle
+    attributes:
+      label: Vehicle and the integration that provides its entities
+      placeholder: "Tesla Model 3 RWD via Teslemetry"
+    validations:
+      required: true
+  - type: textarea
+    id: what_happened
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics
+      description: |
+        Settings → Devices & services → EV LFP Battery Coach → ⋮ → Download diagnostics.
+        Attach the file here (it contains no secrets; the notify target is redacted).
+  - type: textarea
+    id: logs
+    attributes:
+      label: Debug log
+      description: |
+        Enable `custom_components.ev_lfp_coach: debug` under `logger:` in `configuration.yaml`,
+        reproduce the problem and paste the relevant lines.
+      render: text

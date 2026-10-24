@@ -13,7 +13,7 @@ jobs:
     name: Publish GitHub release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Check the tag matches manifest.json
         run: |
           version=$(python3 -c "import json; print(json.load(open('custom_components/ev_lfp_coach/manifest.json'))['version'])")

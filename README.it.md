@@ -9,7 +9,7 @@ due settimane, aspetti che il BMS bilanci le celle e rimetta il limite a posto. 
 > [!WARNING]
 > **Alpha (0.x).** Sviluppato su una **Tesla Model 3** (integrazione Tesla: stati di ricarica
 > `charging`, `complete`, `stopped`, `disconnected`, `no_power`, `starting`) e testato con una suite
-> automatica che simula il veicolo. Un ciclo di ricarica completo reale è ancora in conferma. Altre marche (BYD, MG, Volvo, ...) possono segnalare la fine
+> automatica che simula il veicolo. Un ciclo completo reale è stato confermato su una Model 3 (dettagli nel [README inglese](README.md#first-real-cycle-tesla-model-3)). Altre marche (BYD, MG, Volvo, ...) possono segnalare la fine
 > della ricarica in modo diverso e il rilevamento di "finita" potrebbe richiedere una taratura.
 > Segnalaci cosa fa la tua auto.
 

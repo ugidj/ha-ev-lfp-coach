@@ -14,7 +14,7 @@ weeks, wait for the BMS to balance the cells, and put the limit back. No YAML, n
 > [!WARNING]
 > **Alpha (0.x).** Developed against a **Tesla Model 3** (Tesla integration, whose
 > charging status values are `charging`, `complete`, `stopped`, `disconnected`, `no_power`,
-> `starting`) and tested with an automated suite that simulates the vehicle. A full real-world charge cycle is still being confirmed. Other brands (BYD, MG,
+> `starting`) and tested with an automated suite that simulates the vehicle. One full real-world cycle has been confirmed on a Model 3 ([details](#first-real-cycle-tesla-model-3)). Other brands (BYD, MG,
 > Volvo, ...) may report the end of a charge differently, and the "finished" detection may need
 > tuning — see [Compatibility](#compatibility). Please report what your car does.
 
@@ -233,7 +233,7 @@ issue template; verified cars are listed here.
 
 | Vehicle | Integration | Status |
 | --- | --- | --- |
-| Tesla Model 3 RWD (LFP) | Tesla (Fleet) | ⏳ first real cycle in progress |
+| Tesla Model 3 RWD (LFP) | Tesla (Fleet) | ✅ one full cycle confirmed (0.1.0) |
 | BYD, MG4, Volvo EX30, ... | — | ❔ not reported yet — [tell us](https://github.com/ugidj/ha-ev-lfp-coach/issues/new?template=vehicle_report.yml) |
 
 Found a bug? [Open an issue](https://github.com/ugidj/ha-ev-lfp-coach/issues/new?template=bug_report.yml)
@@ -242,6 +242,24 @@ and attach the diagnostics file.
 Note that how an LFP BMS balances and what a car reports at 100% varies by manufacturer. Check your
 manufacturer's recommendation for calibration frequency; this integration only automates the
 procedure you configure and carries no warranty (see the license).
+
+### First real cycle (Tesla Model 3)
+
+A real run on a Model 3 RWD (LFP), 29–30 October 2026, with the default behaviour:
+
+| Time | What happened |
+| --- | --- |
+| 29 Oct 17:09 | Charging starts at 26% — the coach raises the limit from 75% to 100% within a second. |
+| 30 Oct 03:58 | The battery reaches 100%. The coach announces *top balancing* and leaves the limit alone. |
+| 30 Oct 04:13 | After 15.8 min at the top the coach restores the 75% limit and notifies. |
+
+<img src="docs/images/notifications.png" alt="Notifications sent by the coach during the first cycle" width="320">
+
+What this run also showed: the Tesla integration reported `complete` and 0 A in the **same
+second** the battery hit 100%. That is exactly why the minimum time at the top exists — without
+it the limit would have gone back to 75% instantly. Because the car stops drawing current at that
+point, the coach cannot observe whether the BMS keeps balancing afterwards; it only guarantees
+the limit is not lowered during the wait.
 
 ## Troubleshooting
 

@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] - 2026-10-30
+
+First real charge cycle confirmed on a Tesla Model 3 (see the README).
+
+### Changed
+- The vehicle name is now optional: when left empty it follows the name of the device that owns the
+  battery sensor (e.g. "Tesla Model 3"), so entity IDs and notifications read well out of the box.
+  It falls back to "Electric vehicle" when the sensor has no device. Existing entries are unchanged.
+
 ## [0.1.0] - 2026-10-24
 
 First public release, **alpha**: versions stay below 1.0.0 until a full cycle has been confirmed on real cars. Developed against a Tesla Model 3's entities and tested with a simulated-vehicle suite; a full real charge cycle is still to be confirmed.

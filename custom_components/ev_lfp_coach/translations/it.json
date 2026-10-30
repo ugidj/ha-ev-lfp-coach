@@ -11,6 +11,7 @@
           "charging_status_entity": "Stato di ricarica"
         },
         "data_description": {
+          "name": "Facoltativo. Lascia vuoto per usare il nome del dispositivo del veicolo.",
           "battery_level_entity": "Sensore con lo stato di carica in %.",
           "charge_limit_entity": "Entità number che il coach imposterà (limite quotidiano / limite di calibrazione).",
           "charging_status_entity": "Sensore con lo stato di ricarica, es. charging, complete, stopped, disconnected."

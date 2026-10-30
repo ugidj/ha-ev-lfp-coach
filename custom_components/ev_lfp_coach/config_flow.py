@@ -14,6 +14,8 @@ from homeassistant.config_entries import (
 from homeassistant.const import CONF_NAME, PERCENTAGE, UnitOfTime
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.data_entry_flow import section
+from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers import selector
 import voluptuous as vol
 
@@ -122,9 +124,7 @@ def _vehicle_schema(values: Mapping[str, Any]) -> vol.Schema:
 
     return vol.Schema(
         {
-            vol.Required(
-                CONF_NAME, default=values.get(CONF_NAME, DEFAULT_NAME)
-            ): selector.TextSelector(),
+            vol.Optional(CONF_NAME, **suggested(CONF_NAME)): selector.TextSelector(),
             vol.Required(
                 CONF_BATTERY_LEVEL_ENTITY, **suggested(CONF_BATTERY_LEVEL_ENTITY)
             ): _entity_selector("sensor"),
@@ -160,11 +160,24 @@ def _vehicle_schema(values: Mapping[str, Any]) -> vol.Schema:
     )
 
 
-def _flatten_vehicle(user_input: Mapping[str, Any]) -> dict[str, Any]:
-    """Merge the collapsible "optional" section into the top level."""
+def _flatten_vehicle(hass: HomeAssistant, user_input: Mapping[str, Any]) -> dict[str, Any]:
+    """Merge the collapsible "optional" section and fill in a blank name."""
     data = {key: value for key, value in user_input.items() if key != SECTION_OPTIONAL}
     data.update(user_input.get(SECTION_OPTIONAL) or {})
+    name = data.get(CONF_NAME)
+    data[CONF_NAME] = (
+        name.strip()
+        if isinstance(name, str) and name.strip()
+        else _vehicle_name(hass, data.get(CONF_BATTERY_LEVEL_ENTITY))
+    )
     return data
+
+
+def _vehicle_name(hass: HomeAssistant, battery_entity_id: str | None) -> str:
+    """Name the coach after the device that owns the battery sensor."""
+    entry = er.async_get(hass).async_get(battery_entity_id) if battery_entity_id else None
+    device = dr.async_get(hass).async_get(entry.device_id) if entry and entry.device_id else None
+    return (device and (device.name_by_user or device.name)) or DEFAULT_NAME
 
 
 def _notify_options(hass: HomeAssistant) -> list[str]:
@@ -311,7 +324,7 @@ class EvLfpConfigFlow(ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
         values: dict[str, Any] = {}
         if user_input is not None:
-            values = _flatten_vehicle(user_input)
+            values = _flatten_vehicle(self.hass, user_input)
             errors = _validate_vehicle(values)
             if not errors:
                 # One coach per charge limit: two would fight over the same entity.
@@ -355,7 +368,7 @@ class EvLfpConfigFlow(ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
         values: dict[str, Any] = {**entry.data, **entry.options}
         if user_input is not None:
-            values = _flatten_vehicle(user_input)
+            values = _flatten_vehicle(self.hass, user_input)
             errors = _validate_vehicle(values)
             new_id = values[CONF_CHARGE_LIMIT_ENTITY]
             if not errors and any(

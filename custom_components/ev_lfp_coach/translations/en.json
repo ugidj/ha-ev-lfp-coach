@@ -11,6 +11,7 @@
           "charging_status_entity": "Charging status"
         },
         "data_description": {
+          "name": "Optional. Leave empty to use the name of the vehicle's device.",
           "battery_level_entity": "Sensor with the state of charge in %.",
           "charge_limit_entity": "Number entity the coach will set (daily limit / calibration limit).",
           "charging_status_entity": "Sensor with the charging state, e.g. charging, complete, stopped, disconnected."

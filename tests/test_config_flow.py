@@ -9,6 +9,8 @@ from homeassistant.config_entries import ConfigEntryState
 from homeassistant.const import CONF_NAME
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
+from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers import entity_registry as er
 from pytest_homeassistant_custom_component.common import MockConfigEntry, async_mock_service
 
 from custom_components.ev_lfp_coach.const import (
@@ -95,6 +97,38 @@ async def test_full_flow_creates_the_entry(hass: HomeAssistant) -> None:
     assert result["data"][CONF_FINISHED_STATUSES] == ["complete", "stopped"]
     assert result["data"][CONF_NOTIFY_SERVICE] is None
     assert result["result"].unique_id == LIMIT
+
+
+async def test_blank_name_follows_the_battery_device(hass: HomeAssistant) -> None:
+    """Without a typed name the coach takes the name of the battery sensor's device."""
+    parent = MockConfigEntry(domain="test")
+    parent.add_to_hass(hass)
+    device = dr.async_get(hass).async_get_or_create(
+        config_entry_id=parent.entry_id,
+        identifiers={("test", "car")},
+        name="Tesla Model 3",
+    )
+    er.async_get(hass).async_get_or_create(
+        "sensor", "test", "battery", suggested_object_id="car_battery", device_id=device.id
+    )
+    vehicle = {k: v for k, v in VEHICLE_INPUT.items() if k != CONF_NAME}
+    vehicle[CONF_BATTERY_LEVEL_ENTITY] = "sensor.car_battery"
+
+    result = await _start(hass, vehicle)
+    result = await hass.config_entries.flow.async_configure(result["flow_id"], PARAMETER_INPUT)
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == "Tesla Model 3"
+
+
+async def test_blank_name_without_device_falls_back(hass: HomeAssistant) -> None:
+    """A battery sensor without a device gets the generic default name."""
+    vehicle = {k: v for k, v in VEHICLE_INPUT.items() if k != CONF_NAME}
+
+    result = await _start(hass, vehicle)
+    result = await hass.config_entries.flow.async_configure(result["flow_id"], PARAMETER_INPUT)
+
+    assert result["title"] == "Electric vehicle"
 
 
 async def test_same_charge_limit_cannot_be_added_twice(hass: HomeAssistant) -> None:

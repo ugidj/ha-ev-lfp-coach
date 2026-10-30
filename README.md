@@ -245,7 +245,7 @@ procedure you configure and carries no warranty (see the license).
 
 ### First real cycle (Tesla Model 3)
 
-A real run on a Model 3 RWD (LFP), 29–30 October 2026, with the default behaviour:
+A real run on a Model 3 RWD (LFP), 29–30 October 2026 (minimum time at the top set to 15 min):
 
 | Time | What happened |
 | --- | --- |

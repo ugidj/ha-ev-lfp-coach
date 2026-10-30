@@ -28,9 +28,16 @@ weeks, wait for the BMS to balance the cells, and put the limit back. No YAML, n
 ## Why
 
 LFP packs have a very flat voltage curve, so the BMS cannot estimate the state of charge reliably
-unless it periodically sees a full charge and balances the cells. Manufacturers recommend charging
-to 100% every one or two weeks. For daily use, however, a limit around 70–80% is gentler on the
-battery. Doing the switch by hand is easy to forget, and automating it naively hides a trap:
+unless it periodically sees a full charge and balances the cells, and manufacturers recommend
+charging to 100% regularly.
+
+LFP cells tolerate 100% well, and manufacturers such as Tesla say it is fine to charge them fully
+every day. Still, a high state of charge combined with heat is a known stress factor for
+lithium-ion cells in general, so many owners prefer a lower daily limit (for example in hot
+climates, or when the car sits parked). How much that helps an LFP pack is not proven; it is a
+precaution, not a requirement. This integration lets you keep a lower daily limit without giving up
+the periodic full charge. Doing the switch by hand is easy to forget, and automating it naively
+hides a trap:
 
 > If an automation lowers the limit to 75% *the moment* the battery touches 100%, the car stops
 > charging and the BMS never gets its low-power **top balancing** phase (typically 15–30 min).

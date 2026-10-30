@@ -4,6 +4,13 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.2] - 2026-10-30
+
+### Changed
+- Documentation only: the README no longer states as fact that a 70–80% daily limit is gentler on
+  an LFP pack. It now says that LFP tolerates 100% well, that high charge plus heat is a general
+  lithium-ion stress factor, and that a lower daily limit is a precaution, not a requirement.
+
 ## [0.1.1] - 2026-10-30
 
 First real charge cycle confirmed on a Tesla Model 3 (see the README).

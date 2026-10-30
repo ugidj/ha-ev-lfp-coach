@@ -18,10 +18,16 @@ due settimane, aspetti che il BMS bilanci le celle e rimetta il limite a posto. 
 ## Il problema
 
 Le batterie LFP hanno una curva di tensione molto piatta: il BMS stima bene lo stato di carica solo
-se ogni tanto vede una carica completa e bilancia le celle. I costruttori consigliano il 100% ogni
-1–2 settimane; per l'uso quotidiano, invece, un limite intorno al 70–80% è più gentile con la
-batteria. Fare il cambio a mano è facile da dimenticare, e automatizzarlo in modo ingenuo nasconde
-una trappola:
+se ogni tanto vede una carica completa e bilancia le celle, e i costruttori consigliano di caricare
+al 100% con regolarità.
+
+Le celle LFP tollerano bene il 100% e costruttori come Tesla dicono che si può caricare fino al
+100% ogni giorno. Tuttavia uno stato di carica alto unito al caldo è un noto fattore di stress per
+le celle agli ioni di litio in generale, quindi molti preferiscono un limite quotidiano più basso
+(per esempio nei climi caldi, o quando l'auto resta parcheggiata). Quanto questo aiuti una batteria
+LFP non è dimostrato: è una precauzione, non un obbligo. Questa integrazione permette di tenere un
+limite quotidiano più basso senza rinunciare alla carica completa periodica. Fare il cambio a mano
+è facile da dimenticare, e automatizzarlo in modo ingenuo nasconde una trappola:
 
 > Se un'automazione abbassa il limite al 75% **nell'istante** in cui la batteria tocca il 100%,
 > l'auto smette di caricare e il BMS non completa il **top balancing** a bassa potenza

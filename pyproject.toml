@@ -1,6 +1,6 @@
 [project]
 name = "ha-ev-lfp-coach"
-version = "0.1.1"
+version = "0.1.2"
 description = "Home Assistant custom integration that calibrates and manages LFP EV batteries."
 requires-python = ">=3.14"
 license = { text = "MIT" }
